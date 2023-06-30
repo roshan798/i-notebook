@@ -1,78 +1,97 @@
-import {useState } from 'react';
+import { useState, useEffect } from 'react';
 import NoteContext from './noteContext';
+const REACT_APP_HOST = "http://localhost"
+const REACT_APP_PORT = '8080'
+const t = ":8080/notes/fetchAll";
+const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNDE3NDc3Mi0xMGM2LTExZWUtOGRhNS1jODVhY2Y0NDI1NzciLCJpYXQiOjE2ODc0NDI3OTB9.xHJBs3jBV09c02U7JQUEaidu8KpIX6_0FlSPYIflfbA";
+
+// function to get all notes from the backend using fetch api
+const getAllNotes = async (setNotes) => {
+
+  try {
+    const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/fetchAll`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": authToken
+      },
+    });
+
+    const result = await response.json();
+    console.log("Success:", result);
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+
+}
+// function to add note tothe backend using fetch api
+const addNotesToDB = async (newNote) => {
+  try {
+    const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/addNote`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": authToken
+      },
+      body: JSON.stringify(newNote)
+    });
+
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+// function to delete a note from the backend using fetch api
+const deleteNotesFromDB = async (id) => {
+  try {
+    const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/deleteNotes/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": authToken
+      },
+    });
+
+
+    const result = await response.json();
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
 
 export default function NoteState(props) {
-    
-let notesInitial = [
-    {
-      "id": 1,
-      "user_id": "24174772-10c6-11ee-8da5-c85acf442577",
-      "title": "Note title 1",
-      "content": "Note content bas itna hi hai 1",
-      "created_at": "2023-06-22T18:06:00.000Z",
-      "updated_at": "2023-06-22T18:06:00.000Z"
-    },
-    {
-      "id": 3,
-      "user_id": "24174772-10c6-11ee-8da5-c85acf442577",
-      "title": "updated title3",
-      "content": "updated content3",
-      "created_at": "2023-06-23T11:02:00.000Z",
-      "updated_at": "2023-06-23T17:38:52.000Z"
-    },
-    {
-      "id": 4,
-      "user_id": "24174772-10c6-11ee-8da5-c85acf442577",
-      "title": "Lorem",
-      "content": "Note content bas itna hi hai 2",
-      "created_at": "2023-06-23T11:05:26.000Z",
-      "updated_at": "2023-06-23T11:05:26.000Z"
-    },
-    {
-      "id": 5,
-      "user_id": "24174772-10c6-11ee-8da5-c85acf442577",
-      "title": "Lorem",
-      "content": " bas itna hi hai 2",
-      "created_at": "2023-06-23T11:05:34.000Z",
-      "updated_at": "2023-06-23T11:05:34.000Z"
-    },
-    {
-      "id": 6,
-      "user_id": "24174772-10c6-11ee-8da5-c85acf442577",
-      "title": "Lorem",
-      "content": " bas itna hi hai 2",
-      "created_at": "2023-06-23T11:09:28.000Z",
-      "updated_at": "2023-06-23T11:09:28.000Z"
-    },
-    {
-      "id": 7,
-      "user_id": "24174772-10c6-11ee-8da5-c85acf442577",
-      "title": "Lorem",
-      "content": " bas itna hi hai 2",
-      "created_at": "2023-06-23T11:10:49.000Z",
-      "updated_at": "2023-06-23T11:10:49.000Z"
-    },
-    {
-      "id": 8,
-      "user_id": "24174772-10c6-11ee-8da5-c85acf442577",
-      "title": "updated title",
-      "content": "updated content",
-      "created_at": "2023-06-23T11:11:31.000Z",
-      "updated_at": "2023-06-23T17:23:13.000Z"
-    },
-    {
-      "id": 9,
-      "user_id": "24174772-10c6-11ee-8da5-c85acf442577",
-      "title": "Changed title",
-      "content": "Changed content ",
-      "created_at": "2023-06-23T17:25:05.000Z",
-      "updated_at": "2023-06-23T17:25:05.000Z"
-    }
-  ];
-  const [notes,setNotes] = useState(notesInitial);
-    return (
-        <NoteContext.Provider value={{notes,setNotes}}>
-            {props.children}
-        </NoteContext.Provider>
-    )
+  const [notes, setNotes] = useState([]);
+  // to fetch All notes once
+  useEffect(() => {
+    //setting  user notes fetched from the db
+    (async () => {
+      let initialNotes = await getAllNotes(setNotes);
+      setNotes(initialNotes)
+    })();
+  }, [])
+
+
+  const addNotes = async (newNote) => {
+    let notesId = await addNotesToDB(newNote);
+    newNote.id = notesId;
+    setNotes([newNote, ...notes]);
+  }
+
+  const deleteNotes = async (id) => {
+
+    await deleteNotesFromDB(id);
+    let newNote = notes.filter(note => note.id !== id);
+    setNotes(newNote);
+  }
+  
+  return (
+    <NoteContext.Provider value={{ notes, addNotes, deleteNotes }}>
+      {props.children}
+    </NoteContext.Provider>
+  )
 }

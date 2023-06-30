@@ -4,7 +4,7 @@ const { param } = require('../routes/auth');
 const getAllNotes = (userId) =>{
     return new Promise((resolve,reject)=>{
         try {
-            db.query('SELECT * FROM notes WHERE user_id = ?',userId,
+            db.query('SELECT * FROM notes WHERE user_id = ? ORDER BY created_at DESC',userId,
             (error,result)=>{
                 if(error) 
                     reject(`ERROR : ${error.message}`);

@@ -1,9 +1,12 @@
 const express = require('express');
+const CORS = require('cors')
 const app = express();
+
 const connection = require('./configs/db')
 const authRouter = require('./routes/auth')
 const notesRouter =require('./routes/notes')
 const PORT = process.env.PORT || 8080;
+app.use(CORS());
 app.use(express.json());
 // connected to db from connect method
 connection.connect((error) => {
