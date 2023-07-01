@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import NoteContext from './noteContext';
 const REACT_APP_HOST = "http://localhost"
 const REACT_APP_PORT = '8080'
-const t = ":8080/notes/fetchAll";
 const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNDE3NDc3Mi0xMGM2LTExZWUtOGRhNS1jODVhY2Y0NDI1NzciLCJpYXQiOjE2ODc0NDI3OTB9.xHJBs3jBV09c02U7JQUEaidu8KpIX6_0FlSPYIflfbA";
 
 // function to get all notes from the backend using fetch api
@@ -56,8 +55,32 @@ const deleteNotesFromDB = async (id) => {
     });
 
 
+
     const result = await response.json();
     console.log(result);
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+// function to delete a note from the backend using fetch api
+
+const updateNotesFromDB = async (id, note) => {
+  try {
+    const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/updateNotes/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": authToken
+      },
+      body: JSON.stringify(note)
+    });
+
+
+
+    const result = await response.json();
+    console.log("inside updatedromDB ",result);
     return result;
   } catch (error) {
     console.error("Error:", error);
@@ -88,9 +111,11 @@ export default function NoteState(props) {
     let newNote = notes.filter(note => note.id !== id);
     setNotes(newNote);
   }
-  
+const updateNotes = async (id,note)=>{
+
+}
   return (
-    <NoteContext.Provider value={{ notes, addNotes, deleteNotes }}>
+    <NoteContext.Provider value={{ notes, addNotes, deleteNotes,updateNotes }}>
       {props.children}
     </NoteContext.Provider>
   )
