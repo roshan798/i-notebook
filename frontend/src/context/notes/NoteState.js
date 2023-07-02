@@ -66,7 +66,7 @@ const deleteNotesFromDB = async (id) => {
 
 // function to delete a note from the backend using fetch api
 
-const updateNotesFromDB = async (id, note) => {
+const updateNotesFromDB = async (id, updatedNote) => {
   try {
     const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/updateNotes/${id}`, {
       method: "PUT",
@@ -74,13 +74,13 @@ const updateNotesFromDB = async (id, note) => {
         "Content-Type": "application/json",
         "auth-token": authToken
       },
-      body: JSON.stringify(note)
+      body: JSON.stringify(updatedNote)
     });
 
 
 
     const result = await response.json();
-    console.log("inside updatedromDB ", result);
+    console.log("inside updatedNoteDB ", result);
     return result;
   } catch (error) {
     console.error("Error:", error);
@@ -89,7 +89,7 @@ const updateNotesFromDB = async (id, note) => {
 
 export default function NoteState(props) {
   const [notes, setNotes] = useState([]);
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [showUpdateForm, setShowUpdateForm] = useState(-1);
   // to fetch All notes once
   useEffect(() => {
     //setting  user notes fetched from the db
@@ -113,11 +113,28 @@ export default function NoteState(props) {
     setNotes(newNote);
   }
   const updateNotes = async (id, note) => {
+    try {
+      const response = await updateNotesFromDB(id, note);
+      // / after updating to the db setNotes update the note in <DOM></DOM>
+      setNotes((prevNotes) => {
+        const updatedNotes = prevNotes.map((prevNote) => {
+          if (prevNote.id === id) {
+            return {...note };
+          }
+          return prevNote;
+        });
+        return updatedNotes;
+      });
+      return response;
+      
+    } catch (error) {
+      console.log(error.message);
+    }
 
   }
 
   return (
-    <NoteContext.Provider value={{ notes, addNotes, deleteNotes, updateNotes,showUpdateForm,setShowUpdateForm }}>
+    <NoteContext.Provider value={{ notes, addNotes, deleteNotes, updateNotes, showUpdateForm, setShowUpdateForm }}>
       {props.children}
     </NoteContext.Provider>
   )
