@@ -80,7 +80,7 @@ const updateNotesFromDB = async (id, note) => {
 
 
     const result = await response.json();
-    console.log("inside updatedromDB ",result);
+    console.log("inside updatedromDB ", result);
     return result;
   } catch (error) {
     console.error("Error:", error);
@@ -89,6 +89,7 @@ const updateNotesFromDB = async (id, note) => {
 
 export default function NoteState(props) {
   const [notes, setNotes] = useState([]);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
   // to fetch All notes once
   useEffect(() => {
     //setting  user notes fetched from the db
@@ -111,11 +112,12 @@ export default function NoteState(props) {
     let newNote = notes.filter(note => note.id !== id);
     setNotes(newNote);
   }
-const updateNotes = async (id,note)=>{
+  const updateNotes = async (id, note) => {
 
-}
+  }
+
   return (
-    <NoteContext.Provider value={{ notes, addNotes, deleteNotes,updateNotes }}>
+    <NoteContext.Provider value={{ notes, addNotes, deleteNotes, updateNotes,showUpdateForm,setShowUpdateForm }}>
       {props.children}
     </NoteContext.Provider>
   )

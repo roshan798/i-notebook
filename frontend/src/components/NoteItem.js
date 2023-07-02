@@ -1,29 +1,30 @@
 import React, { useContext } from 'react'
 import NoteContext from '../context/notes/noteContext'
+import NoteUptateForm from './UpdateNoteForm';
 
 const toggleDeleteModal = () => {
     document.getElementById('deleteModal').classList.toggle('hidden');
-
 }
+
+const limitWords = (content, limit) => {
+    const words = content.split(' ');
+    if (words.length > limit) {
+        const truncatedContent = words.slice(0, limit).join(' ');
+        return truncatedContent + '...'; // Add ellipsis(...) after the truncated content
+    }
+    return content;
+};
+
 export default function NoteItem(props) {
-    const { deleteNotes } = useContext(NoteContext);
-    const limitWords = (content, limit) => {
-        const words = content.split(' ');
-        if (words.length > limit) {
-            const truncatedContent = words.slice(0, limit).join(' ');
-            return truncatedContent + '...'; // Add ellipsis after the truncated content
-        }
-        return content;
-    };
+    const { deleteNotes, showUpdateForm, setShowUpdateForm } = useContext(NoteContext);
+
 
     // delete a note
     const deleteHandler = (id) => {
         deleteNotes(id);
     }
 
-    const editHandler = (e) => {
 
-    }
     return (
         <div className="max-w-sm p-6 bg-white rounded-lg dark:bg-gray-200  w-full text-left shadow shadow-violet-400 ">
             <a href="/">
@@ -32,7 +33,10 @@ export default function NoteItem(props) {
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-800" title={props.notes ? props.notes.content : ""}>{props.notes ? limitWords(props.notes.content, 15) : ""}</p>
             <div className="icons-container border border-solid  flex flex-row gap-x-2 justify-between">
                 <div className='flex gap-x-2'>
-                    <button title='Edit' className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'><i className="fa-solid fa-edit"></i></button>
+                    <button title='Edit' className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' onClick={() => {
+                        setShowUpdateForm(true);
+                    }}>
+                        <i className="fa-solid fa-edit" ></i></button>
                     <button title='Delete' className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' onClick={toggleDeleteModal}>
                         <i className="fa-solid fa-trash"></i></button>
                 </div>
@@ -64,6 +68,9 @@ export default function NoteItem(props) {
                     </div>
                 </div>
             </div>
+
+            {showUpdateForm && <NoteUptateForm notes={props.notes} />}
+
         </div>
     )
 }
