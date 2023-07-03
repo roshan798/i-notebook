@@ -28,9 +28,8 @@ router.post('/addNote', fetchUser, [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ error: errors.array() });
     }
-    let userId = req.userId;
     let note = {
         "user_id": req.userId,
         "title": req.body.title,
@@ -49,11 +48,16 @@ router.put('/updateNotes/:id', fetchUser, [
     body('title', 'Title must be atleast 3 characters').isLength({ min: 3 }),
     body('content', "Content must be atleast 5 charcters").isLength({ min: 5 })
 ], async (req, res) => {
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array() });
+    }
     const notesId = req.params.id;
     const userId = req.userId;
     try {
         let result = await getNotesById(notesId);
-        console.log('Note = ', result);
+
         if (result.length == 0 || result[0].user_id != userId) {
             return res.status(401).send("UnAuthorized acces denied");
         }

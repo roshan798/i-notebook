@@ -1,18 +1,23 @@
 import React, { useState, useContext } from 'react';
 import NoteContext from '../context/notes/noteContext';
 export default function UpdateNoteForm(props) {
-    const { setShowUpdateForm,updateNotes } = useContext(NoteContext);
+    const { setShowUpdateForm, updateNotes } = useContext(NoteContext);
     const [notes, setNotes] = useState(props.notes);
 
     async function submitHandler(e) {
-
+        console.log("clicked", notes.title.length, notes.content.length);
         e.preventDefault();
-        try {
-            await updateNotes(props.notes.id,notes);
-            console.log('notes update successfully');
+        if (notes.title.length >= 5 && notes.content.length >= 5) {
+            try {
+                const response = await updateNotes(props.notes.id, notes);
+                if (!response.error) {
+                    console.log('notes update successfully');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+            //it will toggle the visiblity of update form
             setShowUpdateForm(-1);
-        } catch (error) {
-            
         }
 
     }

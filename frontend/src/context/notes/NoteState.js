@@ -45,6 +45,7 @@ const addNotesToDB = async (newNote) => {
 }
 // function to delete a note from the backend using fetch api
 const deleteNotesFromDB = async (id) => {
+  console.log("inside delete db fun", id);
   try {
     const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/deleteNotes/${id}`, {
       method: "DELETE",
@@ -54,13 +55,12 @@ const deleteNotesFromDB = async (id) => {
       },
     });
 
-
-
     const result = await response.json();
-    console.log(result);
+    console.log("inside delete db fun", result);
     return result;
   } catch (error) {
     console.error("Error:", error);
+    return error;
   }
 }
 
@@ -101,32 +101,48 @@ export default function NoteState(props) {
 
 
   const addNotes = async (newNote) => {
-    let notesId = await addNotesToDB(newNote);
-    newNote.id = notesId;
-    setNotes([newNote, ...notes]);
+    try {
+      let response = await addNotesToDB(newNote);
+      newNote.id = response.notesId;
+
+      setNotes([newNote, ...notes]);
+      return response;
+    } catch (error) {
+      return error;
+    }
   }
 
   const deleteNotes = async (id) => {
 
-    await deleteNotesFromDB(id);
-    let newNote = notes.filter(note => note.id !== id);
+    const response = await deleteNotesFromDB(id);
+    console.log(response);
+    console.log("inside delete", id);
+    let newNote = notes.filter(note => {
+      // console.log(note);
+      return note.id !== id;
+    });
+    console.log("NEW NOTES = ", newNote)
     setNotes(newNote);
   }
+
   const updateNotes = async (id, note) => {
     try {
       const response = await updateNotesFromDB(id, note);
+      //error occured in while updating in the db
+      if (response.error)
+        return response;
       // / after updating to the db setNotes update the note in <DOM></DOM>
       setNotes((prevNotes) => {
         const updatedNotes = prevNotes.map((prevNote) => {
           if (prevNote.id === id) {
-            return {...note };
+            return { ...note };
           }
           return prevNote;
         });
         return updatedNotes;
       });
       return response;
-      
+
     } catch (error) {
       console.log(error.message);
     }
