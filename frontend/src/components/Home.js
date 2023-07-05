@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import AddNotes from './AddNotes'
 import NoteItem from './NoteItem'
 import NoteContext from '../context/notes/noteContext';
-
+import LoadingSpinner from './LoadingSpinner'
 const NoNotesMessage = () => {
   return (
     <div className="flex flex-col items-center justify-center mt-10">
@@ -15,16 +15,25 @@ const NoNotesMessage = () => {
 };
 
 export default function Home() {
-  const { notes } = useContext(NoteContext);
+  const { notes, notesLoading } = useContext(NoteContext);
+
   return (
     <div>
       <AddNotes />
       <div className="container flex flex-col max-w-sm mx-auto my-6">
         <h1 className='text-left text-3xl text-violet-800  mb-3'>Your Notes</h1>
         <div className="flex flex-col justify-center items-center gap-3">
-          {(notes && notes.length > 0) ? notes.map((note) => <NoteItem notes={note} key={note.id} />) : <NoNotesMessage/>}
+          {notesLoading ? (
+            <LoadingSpinner /> // Render the loading component while notes are loading
+          ) : (
+            notes && notes.length > 0 ? (
+              notes.map((note) => <NoteItem notes={note} key={note.id} />)
+            ) : (
+              <NoNotesMessage />
+            )
+          )}
         </div>
       </div>
     </div>
-  )
+  );
 }
