@@ -18,7 +18,7 @@ const getAllNotes = async (setNotes) => {
     const result = await response.json();
     // console.log("Success:", result);
     return result;
-  } 
+  }
   catch (error) {
     console.error("Error:", error);
   }
@@ -87,8 +87,12 @@ const updateNotesFromDB = async (id, updatedNote) => {
 }
 
 export default function NoteState(props) {
+
   const [notes, setNotes] = useState([]);
+  // state which will show/hide the alert
+  const [showAlert, setShowAlert] = useState(false); 
   const [showUpdateForm, setShowUpdateForm] = useState(-1);
+
   // to fetch All notes once
   useEffect(() => {
     //setting  user notes fetched from the db
@@ -149,7 +153,7 @@ export default function NoteState(props) {
   }
 
   return (
-    <NoteContext.Provider value={{ notes, addNotes, deleteNotes, updateNotes, showUpdateForm, setShowUpdateForm }}>
+    <NoteContext.Provider value={{ notes, addNotes, deleteNotes, updateNotes, showUpdateForm, setShowUpdateForm, showAlert, setShowAlert }}>
       {props.children}
     </NoteContext.Provider>
   )
