@@ -6,7 +6,6 @@ const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyNDE3NDc3
 
 // function to get all notes from the backend using fetch api
 const getAllNotes = async (setNotes) => {
-
   try {
     const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/fetchAll`, {
       method: "GET",
@@ -17,12 +16,12 @@ const getAllNotes = async (setNotes) => {
     });
 
     const result = await response.json();
-    console.log("Success:", result);
+    // console.log("Success:", result);
     return result;
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Error:", error);
   }
-
 }
 // function to add note tothe backend using fetch api
 const addNotesToDB = async (newNote) => {
@@ -56,7 +55,7 @@ const deleteNotesFromDB = async (id) => {
     });
 
     const result = await response.json();
-    console.log("inside delete db fun", result);
+    // console.log("inside delete db fun", result);
     return result;
   } catch (error) {
     console.error("Error:", error);
@@ -80,7 +79,7 @@ const updateNotesFromDB = async (id, updatedNote) => {
 
 
     const result = await response.json();
-    console.log("inside updatedNoteDB ", result);
+    // console.log("inside updatedNoteDB ", result);
     return result;
   } catch (error) {
     console.error("Error:", error);
@@ -115,13 +114,13 @@ export default function NoteState(props) {
   const deleteNotes = async (id) => {
 
     const response = await deleteNotesFromDB(id);
-    console.log(response);
-    console.log("inside delete", id);
+    // console.log(response);
+    // console.log("inside delete", id);
     let newNote = notes.filter(note => {
       // console.log(note);
       return note.id !== id;
     });
-    console.log("NEW NOTES = ", newNote)
+    // console.log("NEW NOTES = ", newNote)
     setNotes(newNote);
   }
 

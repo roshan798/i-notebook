@@ -5,7 +5,7 @@ export default function UpdateNoteForm(props) {
     const [notes, setNotes] = useState(props.notes);
 
     async function submitHandler(e) {
-        console.log("clicked", notes.title.length, notes.content.length);
+        // console.log("clicked", notes.title.length, notes.content.length);
         e.preventDefault();
         if (notes.title.length >= 5 && notes.content.length >= 5) {
             try {

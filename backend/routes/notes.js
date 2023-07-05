@@ -9,9 +9,9 @@ const { body, validationResult } = require('express-validator');
 router.get('/fetchAll', fetchUser, async (req, res) => {
     try {
         const userId = req.userId;
-        console.log(userId);
+        // console.log(userId);
         let notes = await getAllNotes(userId);
-        console.log("notes", notes);
+        // console.log("notes", notes);
         if (notes.length == 0) {
             return res.send("Notes not availble")
         }
