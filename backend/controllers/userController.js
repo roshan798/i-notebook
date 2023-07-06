@@ -5,22 +5,34 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
 const JWT_TOKEN = process.env.JWT_SECRET;
 
-const registerUser = async (req, res,next) => {
+const registerUser = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({
+            success: false,
+            errors: errors.array()
+        });
     }
     try {
         //checking whether a user exist with input email or not
         let data = await userSevices.getUserByEmail(req.body.email);
         if (data.length > 0) {
-            return res.status(200).send({ message: `${req.body.email} already exists!` });
+            return res.status(200).send(
+                {
+                    success: false,
+                    error: `${req.body.email} already exists!`
+                }
+            );
         }
         req.body.password = await bcrypt.hash(req.body.password, 10);
         let result = await userSevices.registerUser(req.body);
+
         next();
     } catch (error) {
-        res.status(400).send(`ERROR: ${error}`);
+        res.status(400).send({
+            success: false,
+            error: `ERROR: ${error.message}`
+        });
     }
 }
 
@@ -29,7 +41,12 @@ const loginUser = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json(
+            {
+                success: false,
+                errors: errors.array()
+            }
+        );
     }
 
     try {
@@ -40,33 +57,47 @@ const loginUser = async (req, res) => {
                 userId: user[0].id
             }
             let token = jwt.sign(data, JWT_TOKEN);
-            res.status(200).json({ authToken: token });
+            res.status(200).json({
+                success: true,
+                authToken: token
+            });
         }
         else {
-            res.status(200).json({ message: "Invalid email or password. Please login with correct credentials" });
+            res.status(200).json({
+                success: false,
+                message: "Invalid email or password. Please login with correct credentials"
+            });
         }
     }
     catch (error) {
-        res.status(500).send('Internal server error!!');
+        res.status(500).send({
+            success: false,
+            error: 'Internal server error!!'
+        });
     }
-
 }
 
-const fetchUser = async (req,res,next)=>{
+const fetchUser = async (req, res, next) => {
     //get user from jwt token
     const token = req.header('auth-token');
-    if(!token) {
-        res.status(401).send('Please authenticate using  valid token')
+    if (!token) {
+        res.status(401).send({
+            success: false,
+            error: 'Please authenticate using  valid token'
+        })
     }
     try {
-        const data = jwt.verify(token,JWT_TOKEN);
+        const data = jwt.verify(token, JWT_TOKEN);
         req.userId = data.userId;
         next();
-    } 
+    }
     catch (error) {
-        res.status(401).send('Please authenticate using  valid token')
-        
+        res.status(401).send({
+            success: false,
+            error: 'Please authenticate using  valid token'
+        })
+
     }
 }
 
-module.exports = { registerUser, loginUser,fetchUser }
+module.exports = { registerUser, loginUser, fetchUser }

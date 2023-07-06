@@ -13,9 +13,15 @@ router.get('/fetchAll', fetchUser, async (req, res) => {
         let notes = await getAllNotes(userId);
         // console.log("notes", notes);
         if (notes.length == 0) {
-            return res.send("Notes not availble")
+            return res.send({
+                success: true,
+                notes: []
+            })
         }
-        return res.send(notes);
+        return res.send({
+            success: true,
+            notes
+        });
     } catch (error) {
         return res.send(error.message)
     }
@@ -28,7 +34,10 @@ router.post('/addNote', fetchUser, [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({ error: errors.array() });
+        return res.status(400).json({
+            success: false,
+            errors: errors.array()
+        });
     }
     let note = {
         "user_id": req.userId,
@@ -37,10 +46,16 @@ router.post('/addNote', fetchUser, [
     }
     try {
         let response = await addNotes(note);
-        return res.send(response);
+        return res.send({
+            success: true,
+            notesId: response.notesId
+        });
     } catch (error) {
         console.log(error);
-        res.status(401).send('error occured While adding note')
+        res.status(401).send({
+            success: false,
+            error: "'error occured While adding note'"
+        })
     }
 });
 
@@ -49,7 +64,7 @@ router.put('/updateNotes/:id', fetchUser, [
     body('content', "Content must be atleast 5 charcters").isLength({ min: 5 })
 ], async (req, res) => {
     const errors = validationResult(req);
-    
+
     if (!errors.isEmpty()) {
         return res.status(400).json({ error: errors.array() });
     }

@@ -11,6 +11,7 @@ const registerUser = async (data) => {
                 if (error) {
                     reject({Response:false,message:error});
                 }
+                console.log("inside",result);
                 resolve('User registered successfully')
             });
 

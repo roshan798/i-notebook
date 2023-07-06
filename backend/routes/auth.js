@@ -11,7 +11,10 @@ router.post('/createUser', [
     body('password', 'Password  must be atleast 8 character').isLength({ min: 3 }),
     body('email', "Enter a valid email!!").isEmail()],
     registerUser, (req, res) => {
-        return res.status(200).send("User registered successfully");
+        return res.status(200).send({
+            success: true,
+            message: "User registered successfully"
+        });
     });
 
 router.post('/login', [
@@ -27,12 +30,25 @@ router.post('/getUser', fetchUser, async (req, res) => {
         const userId = req.userId;
         const user = await getUserById(userId);
         if (user.length > 0)
-            return res.send(user);
-        return res.status(401).send("internal server error")
+            return res.send({
+                success:true,
+                user:user
+            });
+        return res.status(401).send(
+            {
+                success: false,
+                error: "internal server error"
+            }
+        )
 
 
     } catch (error) {
-        res.status(401).send("internal server error")
+        res.status(401).send(
+            {
+                success: false,
+                error: "internal server error"
+            }
+        )
     }
 })
 module.exports = router;

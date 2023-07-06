@@ -6,7 +6,7 @@ export default function About({ message }) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowAlert(false);
-        }, 5000);
+        }, 3050);
 
         return () => {
             clearTimeout(timer);

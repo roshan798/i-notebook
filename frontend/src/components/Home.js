@@ -16,7 +16,6 @@ const NoNotesMessage = () => {
 
 export default function Home() {
   const { notes, notesLoading } = useContext(NoteContext);
-
   return (
     <div>
       <AddNotes />
