@@ -19,9 +19,9 @@ export default function Home() {
   return (
     <div>
       <AddNotes />
-      <div className="container flex flex-col max-w-sm mx-auto my-6">
-        <h1 className='text-left text-3xl text-violet-800  mb-3'>Your Notes</h1>
-        <div className="flex flex-col justify-center items-center gap-3">
+      <div className="container flex flex-col max-w-xl mx-4  sm:mx-auto my-6 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 justify-items-center  gap-3">
+          <h1 className='text-left text-3xl self-start  text-violet-800  mb-3 sm:col-start-1 sm:col-end-3'>Your Notes</h1>
           {notesLoading ? (
             <LoadingSpinner /> // Render the loading component while notes are loading
           ) : (

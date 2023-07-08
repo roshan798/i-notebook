@@ -147,7 +147,8 @@ export default function NoteState(props) {
   const updateNotes = async (id, note) => {
     if (authToken) {
       try {
-        const response = await updateNotesFromDB(id, note);
+        const response = await updateNotesFromDB(authToken,id, note);
+        console.log(response);
         if (response.error) {
           return response;
         }

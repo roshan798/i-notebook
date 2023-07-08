@@ -25,7 +25,7 @@ const NoteItem = (props) => {
     };
 
     return (
-        <div className="max-w-sm p-6 bg-white rounded-lg dark:bg-gray-200 w-full text-left shadow shadow-violet-400">
+        <div className="max-w-sm h-min p-6 bg-white rounded-lg dark:bg-gray-200 w-full text-left shadow shadow-violet-400">
             <a href="/">
                 <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-800" title={props.notes ? props.notes.title : ''}>
                     {props.notes ? limitWords(props.notes.title, 5) : ''}

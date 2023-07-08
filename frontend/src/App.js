@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Navbar from './components/Navbar';
 import Signup from './components/Signup';
 import Login from './components/Login';
+import Error404 from './components/Error404';
 function App() {
   const { authToken } = useContext(NoteContext)
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route exact path='/' element={authToken ? <Home /> : <Navigate to={'/login'} />}></Route>
         <Route exact path='/login' element={authToken ? <Navigate to={'/'} /> : <Login />}></Route>
         <Route exact path='/signup' element={authToken ? <Navigate to={'/'} /> : <Signup />}></Route>
+        <Route exact path='*' element={<Error404/>}></Route>
       </Routes>
     </div>
 
