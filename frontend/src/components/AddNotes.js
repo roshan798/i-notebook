@@ -76,9 +76,15 @@ export default function AddNotes() {
         }
     }
 
+    const notificationProps = {
+        msg: "Notes Added Successfully",
+        closeAlert: setShowAlert,
+        type : "green",
+        delay : 3000,
+    };
     return (
         <>
-            {showAlert && <Notification message={"Notes Added SuccessFully"} />}
+            {showAlert && <Notification  {...notificationProps} />}
             <form className='mt-10 sm:mx-auto sm:w-full px-4 sm:px-0 sm:max-w-sm flex flex-col gap-y-2' onSubmit={submitHandler}>
                 <label htmlFor="add-title" className='block text-sm font-medium leading-6 text-gray-300 text-left'>Title <sup className='text-red-500'>*</sup>
                     <input type="text" id='add-title' name='title' className='block text-lg w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' value={note.title} onChange={onChangeHandler} minLength={5} required />

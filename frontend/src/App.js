@@ -1,14 +1,14 @@
 import './output.css';
 import { useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import NoteContext from './context/notes/noteContext';
+import UserContext from './context/user/userContext';
 import Home from './components/Home';
 import Navbar from './components/Navbar';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Error404 from './components/Error404';
 function App() {
-  const { authToken } = useContext(NoteContext)
+  const { authToken } = useContext(UserContext)
   return (
 
     <div className="App text-center text-red-700">

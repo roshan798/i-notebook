@@ -31,7 +31,7 @@ export default function UpdateNoteForm(props) {
     };
 
     return (
-        <div className="fixed z-10 bg-white p-6 rounded-md shadow-lg max-w-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
+        <div className="fixed z-10 bg-white p-6 w-1/2 max-w-lg top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2   rounded shadow-lg shadow-black dark:bg-[#260a2fd7] backdrop-blur-md">
             <button type="button" className="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="deleteModal" onClick={() => {
                 setShowUpdateForm(-1);
             }}>

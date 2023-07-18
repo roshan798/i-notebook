@@ -2,7 +2,8 @@ const { JsonWebTokenError } = require('jsonwebtoken');
 const userSevices = require('../services/userServices');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { route } = require('../routes/auth');
 const JWT_TOKEN = process.env.JWT_SECRET;
 
 const registerUser = async (req, res, next) => {
@@ -26,7 +27,6 @@ const registerUser = async (req, res, next) => {
         }
         req.body.password = await bcrypt.hash(req.body.password, 10);
         let result = await userSevices.registerUser(req.body);
-
         next();
     } catch (error) {
         res.status(400).send({
@@ -54,12 +54,18 @@ const loginUser = async (req, res) => {
 
         if (user.length > 0 && await bcrypt.compare(req.body.password, user[0].password) === true) {
             let data = {
-                userId: user[0].id
+                userId: user[0].id,
+                name: user[0].username,
+                email: user[0].email
+            }
+            const User = {
+                name: user[0].username,
+                email: user[0].email
             }
             let token = jwt.sign(data, JWT_TOKEN);
             res.status(200).json({
                 success: true,
-                authToken: token
+                authToken: token,
             });
         }
         else {
@@ -88,7 +94,7 @@ const fetchUser = async (req, res, next) => {
     }
     try {
         const data = jwt.verify(token, JWT_TOKEN);
-        req.userId = data.userId;
+        req.user = data;
         next();
     }
     catch (error) {

@@ -25,15 +25,16 @@ router.post('/login', [
 
 
 //login required 
-router.post('/getUser', fetchUser, async (req, res) => {
+router.get('/getUser', fetchUser, async (req, res) => {
     try {
-        const userId = req.userId;
-        const user = await getUserById(userId);
-        if (user.length > 0)
-            return res.send({
-                success:true,
-                user:user
-            });
+        const user = {
+            name:req.user.name,
+            email:req.user.email
+        };
+        return res.send({
+            success: true,
+            user: user
+        });
         return res.status(401).send(
             {
                 success: false,
@@ -51,4 +52,6 @@ router.post('/getUser', fetchUser, async (req, res) => {
         )
     }
 })
+
+
 module.exports = router;

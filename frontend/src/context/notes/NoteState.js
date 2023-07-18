@@ -1,22 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import NoteContext from './noteContext';
+import UserContext from '../user/userContext';
 import { useNavigate } from 'react-router-dom';
 const REACT_APP_HOST = "http://localhost";
 const REACT_APP_PORT = '8080';
 
 export default function NoteState(props) {
+  const {authToken, setAuthToken} = useContext(UserContext)
+  // console.log(user);
   const [notes, setNotes] = useState([]);
   const [notesLoading, setNotesLoading] = useState(true);
   // state which will show/hide the alert
   const [showAlert, setShowAlert] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(-1);
-  const [authToken, setAuthToken] = useState(localStorage.getItem('token'));
   const navigate = useNavigate();
   // to fetch all notes once
   useEffect(() => {
     // Setting user notes fetched from the db
     (async () => {
-      console.log("effect running");
+      // console.log("effect running");
       if (authToken) {
         let initialNotes = await getAllNotes(authToken);
         setNotes(initialNotes);
@@ -43,7 +45,7 @@ export default function NoteState(props) {
       });
 
       const result = await response.json();
-      setNotesLoading(false);
+      setTimeout(setNotesLoading,300,false);
       if (result.success) {
         return result.notes;
       }
@@ -173,8 +175,9 @@ export default function NoteState(props) {
     }
   };
 
+  
   return (
-    <NoteContext.Provider value={{ notes, addNotes, deleteNotes, updateNotes, showUpdateForm, setShowUpdateForm, showAlert, setShowAlert, notesLoading, setNotesLoading,setAuthToken,authToken }}>
+    <NoteContext.Provider value={{ notes, addNotes, deleteNotes, updateNotes, showUpdateForm, setShowUpdateForm, showAlert, setShowAlert, notesLoading, setNotesLoading }}>
       {props.children}
     </NoteContext.Provider>
   );

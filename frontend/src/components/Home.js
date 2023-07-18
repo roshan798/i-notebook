@@ -25,7 +25,7 @@ export default function Home() {
           {notesLoading ? (
             <LoadingSpinner /> // Render the loading component while notes are loading
           ) : (
-            notes && notes.length > 0 ? (
+              notes && notes.length > 0 ? (
               notes.map((note) => <NoteItem notes={note} key={note.id} />)
             ) : (
               <NoNotesMessage />

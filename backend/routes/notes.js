@@ -8,10 +8,8 @@ const { body, validationResult } = require('express-validator');
 //first create the post route to add nodes and before doing that first of all create the notes table in the db
 router.get('/fetchAll', fetchUser, async (req, res) => {
     try {
-        const userId = req.userId;
-        // console.log(userId);
+        const userId = req.user.userId;
         let notes = await getAllNotes(userId);
-        // console.log("notes", notes);
         if (notes.length == 0) {
             return res.send({
                 success: true,
@@ -40,7 +38,7 @@ router.post('/addNote', fetchUser, [
         });
     }
     let note = {
-        "user_id": req.userId,
+        "user_id": req.user.userId,
         "title": req.body.title,
         "content": req.body.content,
     }
@@ -69,7 +67,7 @@ router.put('/updateNotes/:id', fetchUser, [
         return res.status(400).json({ error: errors.array() });
     }
     const notesId = req.params.id;
-    const userId = req.userId;
+    const userId = req.user.userId;
     try {
         let result = await getNotesById(notesId);
 
@@ -89,7 +87,7 @@ router.put('/updateNotes/:id', fetchUser, [
 })
 router.delete('/deleteNotes/:id', fetchUser, async (req, res) => {
     const notesId = req.params.id;
-    const userId = req.userId;
+    const userId = req.user.userId;
     try {
         let result = await getNotesById(notesId);
         if (result.length == 0 || result[0].user_id != userId) {
