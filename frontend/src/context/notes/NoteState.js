@@ -2,11 +2,9 @@ import { useState, useEffect, useContext } from 'react';
 import NoteContext from './noteContext';
 import UserContext from '../user/userContext';
 import { useNavigate } from 'react-router-dom';
-const REACT_APP_HOST = "http://localhost";
-const REACT_APP_PORT = '8080';
 
 export default function NoteState(props) {
-  const {authToken, setAuthToken} = useContext(UserContext)
+  const {authToken} = useContext(UserContext)
   // console.log(user);
   const [notes, setNotes] = useState([]);
   const [notesLoading, setNotesLoading] = useState(true);
@@ -16,9 +14,7 @@ export default function NoteState(props) {
   const navigate = useNavigate();
   // to fetch all notes once
   useEffect(() => {
-    // Setting user notes fetched from the db
     (async () => {
-      // console.log("effect running");
       if (authToken) {
         let initialNotes = await getAllNotes(authToken);
         setNotes(initialNotes);
@@ -34,9 +30,8 @@ export default function NoteState(props) {
 
   // Function to get all notes from the backend using fetch api
   const getAllNotes = async (authToken) => {
-
     try {
-      const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/fetchAll`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notes/fetchAll`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -44,6 +39,9 @@ export default function NoteState(props) {
         },
       });
 
+      if(!response.ok){
+        throw new Error("Network response was not ok");
+      }
       const result = await response.json();
       setTimeout(setNotesLoading,300,false);
       if (result.success) {
@@ -58,7 +56,7 @@ export default function NoteState(props) {
   // Function to add a note to the backend using fetch api
   const addNotesToDB = async (authToken, newNote) => {
     try {
-      const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/addNote`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notes/addNote`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +75,7 @@ export default function NoteState(props) {
   // Function to delete a note from the backend using fetch api
   const deleteNotesFromDB = async (authToken, id) => {
     try {
-      const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/deleteNotes/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notes/deleteNotes/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +94,7 @@ export default function NoteState(props) {
   // Function to update a note in the backend using fetch api
   const updateNotesFromDB = async (authToken, id, updatedNote) => {
     try {
-      const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/notes/updateNotes/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notes/updateNotes/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -120,6 +118,7 @@ export default function NoteState(props) {
         if (response.success === true) {
           newNote.id = response.notesId;
           setNotes([newNote, ...notes]);
+          console.log(notes);
         } 
         else {
           //set error

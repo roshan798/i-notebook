@@ -82,7 +82,10 @@ router.put('/updateNotes/:id', fetchUser, [
         return res.send(response);
     } catch (error) {
         console.log(error);
-        res.status(401).send('error occured While updating note')
+        res.status(401).json({
+            success:false,
+            error:`error occured While updating note\nERROR : ${error.message}`
+        });
     }
 })
 router.delete('/deleteNotes/:id', fetchUser, async (req, res) => {
@@ -91,7 +94,7 @@ router.delete('/deleteNotes/:id', fetchUser, async (req, res) => {
     try {
         let result = await getNotesById(notesId);
         if (result.length == 0 || result[0].user_id != userId) {
-            return res.status(401).send("UnAuthorized acces denied");
+            return res.status(401).send("Unauthorized acces denied");
         }
         let response = await deleteNotes(notesId);
         res.json({

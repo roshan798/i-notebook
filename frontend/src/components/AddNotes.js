@@ -70,7 +70,8 @@ export default function AddNotes() {
                 content: removeExtraSpaces(note.content)
             }
 
-            await addNotes(newNote);
+           const response =  await addNotes(newNote);
+            console.log(response);
             setShowAlert(true);
             setNote(intialNote);
         }
