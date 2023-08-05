@@ -40,7 +40,7 @@ connection.query(`CREATE TABLE Users (
     FOREIGN KEY (user_id) REFERENCES Users(id)
 )`,(error)=>{
     if(error)
-    console.log(error.sqlMessage);
+      console.log(error.sqlMessage);
   })
 
 app.use('/api/auth',authRouter);

@@ -6,7 +6,7 @@ const registerUser = async (data) => {
         password: data.password
     }
     return new Promise((resolve, reject) => {
-        db.query('INSERT INTO users SET ?', user,
+        db.query('INSERT INTO Users SET ?', user,
             (error, result) => {
                 if (error) {
                     reject({Response:false,message:error});
@@ -20,7 +20,7 @@ const registerUser = async (data) => {
 const getUserByEmail = (email) => {
     return new Promise((resolve, reject) => {
         try {
-            db.query('SELECT * FROM users where email = ?', email,
+            db.query('SELECT * FROM Users where email = ?', email,
                 (error, result) => {
                     if (error) {
                         reject(new Error(`ERROR: ${error}`));
@@ -36,7 +36,7 @@ const getUserByEmail = (email) => {
 const getUserById = (id) => {
     return new Promise((resolve, reject) => {
         try {
-            db.query('SELECT id,email,username,created_at,updated_at FROM users where id = ?', id,
+            db.query('SELECT id,email,username,created_at,updated_at FROM Users where id = ?', id,
                 (error, result) => {
                     if (error) {
                         reject(new Error(`ERROR: ${error}`));

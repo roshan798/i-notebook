@@ -76,6 +76,7 @@ const loginUser = async (req, res) => {
         }
     }
     catch (error) {
+        console.log("ERROR",error);
         res.status(500).send({
             success: false,
             error: 'Internal server error!!'

@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-// import NoteContext from '../context/notes/noteContext';
 export default function Notifiction(props) {
     const { delay, type, closeAlert, msg } = props;
 
@@ -38,16 +36,4 @@ export default function Notifiction(props) {
     );
 };
 
-Notification.propTypes = {
-    delay: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    msg: PropTypes.string.isRequired,
-    closeAlert: PropTypes.func.isRequired
-}
-
-Notification.defaultProps = {
-    delay: 3000,
-    type: "green",
-    msg :"hello world"
-}
 

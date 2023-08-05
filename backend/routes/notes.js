@@ -94,7 +94,10 @@ router.delete('/deleteNotes/:id', fetchUser, async (req, res) => {
             return res.status(401).send("UnAuthorized acces denied");
         }
         let response = await deleteNotes(notesId);
-        res.send(response);
+        res.json({
+            success:true,
+            response
+        });
     }
     catch (error) {
         console.log(error);

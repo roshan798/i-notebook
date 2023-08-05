@@ -120,7 +120,7 @@ export default function NoteState(props) {
         if (response.success === true) {
           newNote.id = response.notesId;
           setNotes([newNote, ...notes]);
-        }
+        } 
         else {
           //set error
         }

@@ -76,7 +76,6 @@ export default function Login() {
             if (result.success === true) {
                 localStorage.setItem("token", result.authToken);
                 setAuthToken(result.authToken);
-                setShowAlert(true);
                 navigate('/');
             }
             else {
