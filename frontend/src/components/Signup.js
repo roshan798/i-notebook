@@ -1,9 +1,5 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
-const REACT_APP_HOST = "http://localhost";
-const REACT_APP_PORT = '8080';
-
 export default function Signup() {
     const navigate = useNavigate();
     const intialCredentials = {
@@ -23,7 +19,7 @@ export default function Signup() {
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/api/auth/createUser`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/createUser`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

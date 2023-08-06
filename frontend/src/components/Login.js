@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import UserContext from '../context/user/userContext';
 import NoteContext from '../context/notes/noteContext';
 import Notification from './Notification';
-const REACT_APP_HOST = "http://localhost";
-const REACT_APP_PORT = '8080';
 
 const FormErrors = (props) => {
     return (
@@ -64,7 +62,7 @@ export default function Login() {
         e.preventDefault();
         /// this will be moved to user context 
         try {
-            const response = await fetch(`${REACT_APP_HOST}:${REACT_APP_PORT}/api/auth/login`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
