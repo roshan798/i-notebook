@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require("body-parser");
 const CORS = require('cors')
 const app = express();
 
@@ -8,6 +9,7 @@ const notesRouter =require('./routes/notes')
 const PORT = process.env.PORT || 8080;
 app.use(CORS());
 app.use(express.json());
+app.use(bodyParser.json());
 // connected to db from connect method
 connection.connect((error) => {
     if (error) {
