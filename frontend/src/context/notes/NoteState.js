@@ -30,7 +30,6 @@ export default function NoteState(props) {
   const getAllNotes = async (authToken) => {
     try {
       const url = `${process.env.REACT_APP_BASE_URL}/notes/fetchAll`;
-      console.log(url);
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -44,6 +43,7 @@ export default function NoteState(props) {
       }
       const result = await response.json();
       setTimeout(setNotesLoading, 300, false);
+      console.log("result",result);
       if (result.success) {
         return result.notes;
       }
@@ -69,6 +69,7 @@ export default function NoteState(props) {
       );
 
       const result = await response.json();
+
       return result;
     } catch (error) {
       console.error("Error:", error);
@@ -125,7 +126,9 @@ export default function NoteState(props) {
       try {
         let response = await addNotesToDB(authToken, newNote);
         if (response.success === true) {
+          console.log(response);
           newNote.id = response.notesId;
+          console.log(notes);
           setNotes([newNote, ...notes]);
           console.log(notes);
         } else {
