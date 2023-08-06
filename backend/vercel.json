@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "music-album",
+  "name": "i-notebook-app",
   "builds": [
     {
       "src": "./index.js",
