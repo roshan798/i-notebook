@@ -5,7 +5,7 @@ const getAllNotes = (userId) => {
   return new Promise((resolve, reject) => {
     try {
       db.query(
-        "SELECT * FROM Notes WHERE user_id = ? ORDER BY created_at DESC",
+        "SELECT * FROM Notes WHERE user_id = ? ORDER BY id",
         userId,
         (error, result) => {
           if (error)
@@ -101,7 +101,6 @@ const updateNotes = (NotesId, Notes) => {
 };
 
 const getNotesById = (NotesId) => {
-  console.log("getNotes inside");
   return new Promise((resolve, reject) => {
     try {
       db.query(`SELECT * from Notes WHERE id = ?`, NotesId, (error, result) => {

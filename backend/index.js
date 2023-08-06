@@ -24,20 +24,16 @@ connection.query(`CREATE TABLE Users (
     username VARCHAR(255) NOT NULL,
     password VARCHAR(60) NOT NULL,
     email VARCHAR(255) NOT NULL unique,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
   )`,(error)=>{
     if(error)
     console.log(error.sqlMessage);
   });
   connection.query(`CREATE TABLE Notes (
-    id VARCHAR(36) NOT NULL DEFAULT (UUID()),
+    id INT NOT NULL AUTO_INCREMENT,
     user_id VARCHAR(36) NOT NULL,
     title VARCHAR(255) NOT NULL,
     content TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES Users(id)
 )`,(error)=>{
