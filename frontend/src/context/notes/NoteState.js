@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
-import NoteContext from './noteContext';
-import UserContext from '../user/userContext';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useContext } from "react";
+import NoteContext from "./noteContext";
+import UserContext from "../user/userContext";
+import { useNavigate } from "react-router-dom";
 
 export default function NoteState(props) {
-  const {authToken} = useContext(UserContext)
+  const { authToken } = useContext(UserContext);
   // console.log(user);
   const [notes, setNotes] = useState([]);
   const [notesLoading, setNotesLoading] = useState(true);
@@ -18,10 +18,8 @@ export default function NoteState(props) {
       if (authToken) {
         let initialNotes = await getAllNotes(authToken);
         setNotes(initialNotes);
-      }
-      else {
+      } else {
         // navigate('/signup');
-        
         // console.log("object");
       }
     })();
@@ -31,19 +29,21 @@ export default function NoteState(props) {
   // Function to get all notes from the backend using fetch api
   const getAllNotes = async (authToken) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notes/fetchAll`, {
+      const url = `${process.env.REACT_APP_BASE_URL}/notes/fetchAll`;
+      console.log(url);
+      const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "auth-token": authToken
+          "auth-token": authToken,
         },
       });
 
-      if(!response.ok){
+      if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
-      setTimeout(setNotesLoading,300,false);
+      setTimeout(setNotesLoading, 300, false);
       if (result.success) {
         return result.notes;
       }
@@ -56,14 +56,17 @@ export default function NoteState(props) {
   // Function to add a note to the backend using fetch api
   const addNotesToDB = async (authToken, newNote) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notes/addNote`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": authToken
-        },
-        body: JSON.stringify(newNote)
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/notes/addNote`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": authToken,
+          },
+          body: JSON.stringify(newNote),
+        }
+      );
 
       const result = await response.json();
       return result;
@@ -75,13 +78,16 @@ export default function NoteState(props) {
   // Function to delete a note from the backend using fetch api
   const deleteNotesFromDB = async (authToken, id) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notes/deleteNotes/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": authToken
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/notes/deleteNotes/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": authToken,
+          },
+        }
+      );
 
       const result = await response.json();
       return result;
@@ -94,14 +100,17 @@ export default function NoteState(props) {
   // Function to update a note in the backend using fetch api
   const updateNotesFromDB = async (authToken, id, updatedNote) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notes/updateNotes/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": authToken
-        },
-        body: JSON.stringify(updatedNote)
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/notes/updateNotes/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": authToken,
+          },
+          body: JSON.stringify(updatedNote),
+        }
+      );
 
       const result = await response.json();
       return result;
@@ -114,13 +123,12 @@ export default function NoteState(props) {
   const addNotes = async (newNote) => {
     if (authToken) {
       try {
-        let response = await addNotesToDB(authToken,newNote);
+        let response = await addNotesToDB(authToken, newNote);
         if (response.success === true) {
           newNote.id = response.notesId;
           setNotes([newNote, ...notes]);
           console.log(notes);
-        } 
-        else {
+        } else {
           //set error
         }
         return response;
@@ -132,7 +140,7 @@ export default function NoteState(props) {
 
   // Function to delete a note
   const deleteNotes = async (id) => {
-    const authToken = localStorage.getItem('token')
+    const authToken = localStorage.getItem("token");
     if (authToken) {
       const response = await deleteNotesFromDB(authToken, id);
       let newNote = notes.filter((note) => {
@@ -140,15 +148,14 @@ export default function NoteState(props) {
       });
       setNotes(newNote);
     }
-    navigate('/signup')
+    navigate("/signup");
   };
-
 
   // Function to update a note
   const updateNotes = async (id, note) => {
     if (authToken) {
       try {
-        const response = await updateNotesFromDB(authToken,id, note);
+        const response = await updateNotesFromDB(authToken, id, note);
         console.log(response);
         if (response.error) {
           return response;
@@ -168,15 +175,26 @@ export default function NoteState(props) {
       } catch (error) {
         console.log(error.message);
       }
-    }
-    else {
-      navigate('/signup')
+    } else {
+      navigate("/signup");
     }
   };
 
-  
   return (
-    <NoteContext.Provider value={{ notes, addNotes, deleteNotes, updateNotes, showUpdateForm, setShowUpdateForm, showAlert, setShowAlert, notesLoading, setNotesLoading }}>
+    <NoteContext.Provider
+      value={{
+        notes,
+        addNotes,
+        deleteNotes,
+        updateNotes,
+        showUpdateForm,
+        setShowUpdateForm,
+        showAlert,
+        setShowAlert,
+        notesLoading,
+        setNotesLoading,
+      }}
+    >
       {props.children}
     </NoteContext.Provider>
   );

@@ -52,7 +52,7 @@ router.post('/addNote', fetchUser, [
         console.log(error);
         res.status(401).send({
             success: false,
-            error: "'error occured While adding note'"
+            error: "error occured While adding note\nERROR: "+ error
         })
     }
 });
