@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <div>
       <AddNotes />
-      <div className="container flex flex-col max-w-xl mx-4  sm:mx-auto my-6 ">
+      <div style={{ width: "inherit" }} className="container flex flex-col max-w-xl mx-4  sm:mx-auto my-6 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 justify-items-center  gap-3">
           <h1 className='text-left text-3xl self-start  text-violet-800  mb-3 sm:col-start-1 sm:col-end-3'>Your Notes</h1>
           {notesLoading ? (
