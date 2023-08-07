@@ -35,19 +35,19 @@ router.get('/getUser', fetchUser, async (req, res) => {
             success: true,
             user: user
         });
-        return res.status(401).send(
-            {
-                success: false,
-                error: "internal server error"
-            }
-        )
+        // return res.status(401).json(
+        //     {
+        //         success: false,
+        //         error: "internal server error"
+        //     }
+        // )
 
 
     } catch (error) {
         res.status(401).send(
             {
                 success: false,
-                error: "internal server error"
+                error: "internal server error \n ERROR: "+error.message
             }
         )
     }
