@@ -45,7 +45,8 @@ export default function Login() {
         password: "",
     };
     const navigate = useNavigate();
-    const { setAuthToken, loginUser, userDetail } = useContext(UserContext);
+    const { setAuthToken, loginUser, userDetail, setUserDetail } =
+        useContext(UserContext);
     const { showAlert, setShowAlert, setNotificationProp } =
         useContext(UserContext);
     // const [formErrors, setFormErrors] = useState(null);
@@ -70,7 +71,7 @@ export default function Login() {
                 localStorage.setItem("token", result.authToken);
                 setAuthToken(result.authToken);
                 setNotificationProp({
-                    msg: `Welcome ${userDetail.name}!!`,
+                    msg: `Welcome ${result.userDetail.name} !!`,
                     type: "green",
                     closeAlert: setShowAlert,
                     delay: 5000,

@@ -125,11 +125,11 @@ export default function NoteState(props) {
             try {
                 let response = await addNotesToDB(authToken, newNote);
                 if (response.success === true) {
-                    console.log(response);
+                    // console.log(response);
                     newNote.id = response.notesId;
-                    console.log(notes);
+                    // console.log(notes);
                     setNotes([newNote, ...notes]);
-                    console.log(notes);
+                    // console.log(notes);
                 } else {
                     //set error
                 }
@@ -145,10 +145,13 @@ export default function NoteState(props) {
         const authToken = localStorage.getItem("token");
         if (authToken) {
             const response = await deleteNotesFromDB(authToken, id);
-            let newNote = notes.filter((note) => {
-                return note.id !== id;
-            });
-            setNotes(newNote);
+            if (response.success) {
+                let newNote = notes.filter((note) => {
+                    return note.id !== id;
+                });
+                setNotes(newNote);
+            }
+            return response;
         }
         navigate("/signup");
     };

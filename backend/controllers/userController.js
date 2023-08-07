@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
 
     try {
         let user = await userSevices.getUserByEmail(req.body.email);
-
+        
         if (user.length > 0 && await bcrypt.compare(req.body.password, user[0].password) === true) {
             let data = {
                 userId: user[0].id,
@@ -66,6 +66,7 @@ const loginUser = async (req, res) => {
             res.status(200).json({
                 success: true,
                 authToken: token,
+                userDetail: User
             });
         }
         else {

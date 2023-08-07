@@ -66,6 +66,7 @@ export default function UserState(props) {
         <UserContext.Provider
             value={{
                 userDetail,
+                setUserDetail,
                 authToken,
                 setAuthToken,
                 loginUser,
