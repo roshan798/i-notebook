@@ -4,13 +4,16 @@ import UserContext from "../context/user/userContext";
 export default function UpdateNoteForm(props) {
     const { setShowUpdateForm, updateNotes } = useContext(NoteContext);
     const { setNotificationProp, setShowAlert } = useContext(UserContext);
+
     //state for the update note form
     const [notes, setNotes] = useState(props.notes);
+    const [inputDisable, setInputDisable] = useState(false);
 
     async function submitHandler(e) {
         e.preventDefault();
         if (notes.title.length >= 5 && notes.content.length >= 5) {
             try {
+                setInputDisable(true);
                 const response = await updateNotes(props.notes.id, notes);
                 if (!response.error) {
                     setNotificationProp((prevProp) => ({
@@ -24,6 +27,7 @@ export default function UpdateNoteForm(props) {
                 console.log(error);
             }
             //it will toggle the visiblity of update form
+            setInputDisable(false);
             setShowUpdateForm(-1);
         }
     }
@@ -96,10 +100,11 @@ export default function UpdateNoteForm(props) {
                     />
                 </label>
                 <button
+                    disabled={inputDisable}
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                    Update note
+                    {inputDisable ? "Pending..." : "Update note"}
                 </button>
             </form>
         </div>

@@ -62,10 +62,9 @@ router.post(
         notesId: response.NotesId,
       });
     } catch (error) {
-      console.log(error);
-      res.status(401).send({
+        res.status(401).send({
         success: false,
-        error: "error occured While adding note\nERROR: " + error,
+        error: "error occured While adding note\nERROR: " + error.message,
       });
     }
   }

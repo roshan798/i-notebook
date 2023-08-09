@@ -6,6 +6,7 @@ export default function AddNotes() {
     const { addNotes } = useContext(NoteContext);
     const { showAlert, setShowAlert, setNotificationProp } =
         useContext(UserContext);
+        const [inputDisable,setInputDisable] = useState(false);
     const intialNote = {
         title: "",
         content: "",
@@ -70,7 +71,10 @@ export default function AddNotes() {
                 content: removeExtraSpaces(note.content),
             };
 
+            setInputDisable(true);
             const response = await addNotes(newNote);
+            setInputDisable(false);
+
             // console.log(response);
             setNotificationProp({
                 msg: "Notes Added Successfully",
@@ -132,11 +136,11 @@ export default function AddNotes() {
                     </span>
                 )}
                 <button
-                    disabled={hasError()}
+                    disabled={hasError() || inputDisable}
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                    Add note
+                    {inputDisable ? "Pending..." : "Add note"}
                 </button>
             </form>
         </>
