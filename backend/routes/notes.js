@@ -56,15 +56,14 @@ router.post(
     };
     try {
       let response = await addNotes(note);
-      console.log(response);
       return res.json({
         success: true,
         notesId: response.NotesId,
       });
     } catch (error) {
-        res.status(401).send({
+        res.status(401).json({
         success: false,
-        error: "error occured While adding note\nERROR: " + error.message,
+        error: "Error occured While adding note\nERROR: " + error.toString(),
       });
     }
   }
