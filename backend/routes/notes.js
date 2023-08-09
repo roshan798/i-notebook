@@ -23,7 +23,7 @@ router.get("/fetchAll", fetchUser, async (req, res) => {
     }
     return res.send({
       success: true,
-      notes,
+      notes: notes,
     });
   } catch (error) {
     return res.json({
