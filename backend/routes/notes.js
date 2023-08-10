@@ -61,12 +61,12 @@ router.post(
         notesId: response.NotesId,
       });
     } catch (error) {
-        res.status(401).json({
+      res.status(401).json({
         success: false,
         error: "Error occured While adding note\nERROR: " + error.toString(),
       });
     }
-  }
+  },
 );
 
 router.put(
@@ -103,7 +103,7 @@ router.put(
         error: `error occured While updating note\nERROR : ${error.message}`,
       });
     }
-  }
+  },
 );
 router.delete("/deleteNotes/:id", fetchUser, async (req, res) => {
   const notesId = req.params.id;
