@@ -3,15 +3,6 @@ import NoteContext from '../context/notes/noteContext'
 import UpdateNoteForm from './UpdateNoteForm'
 import UserContext from '../context/user/userContext'
 
-const limitWords = (content, limit) => {
-    const words = content.split(' ')
-    if (words.length > limit) {
-        const truncatedContent = words.slice(0, limit).join(' ')
-        return truncatedContent + '...' // Add ellipsis(...) after the truncated content
-    }
-    return content
-}
-
 const NoteItem = (props) => {
     const { deleteNotes, showUpdateForm, setShowUpdateForm } =
         useContext(NoteContext)
@@ -41,20 +32,22 @@ const NoteItem = (props) => {
     }
 
     return (
-        <div className="h-min w-full max-w-sm rounded-lg bg-white p-6 text-left shadow shadow-violet-400 dark:bg-gray-200">
-            <a href="/">
-                <h2
-                    className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-800"
-                    title={props.notes ? props.notes.title : ''}>
-                    {props.notes ? limitWords(props.notes.title, 5) : ''}
-                </h2>
-            </a>
-            <p
-                className="mb-3 font-normal text-gray-700 dark:text-gray-800"
-                title={props.notes ? props.notes.content : ''}>
-                {props.notes ? limitWords(props.notes.content, 15) : ''}
-            </p>
-            <div className="icons-container flex flex-row justify-between gap-x-2 border border-solid">
+        <div className="note-card  flex flex-col justify-between rounded-lg bg-white p-4 text-left shadow shadow-violet-400 dark:bg-gray-200">
+            <div>
+                <a href="/">
+                    <h2
+                        className="mb-2 overflow-hidden text-ellipsis whitespace-nowrap text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-800"
+                        title={props.notes ? props.notes.title : ''}>
+                        {props.notes ? props.notes.title : ''}
+                    </h2>
+                </a>
+                <p
+                    className="three-line mb-3 font-normal text-gray-700 dark:text-gray-800"
+                    title={props.notes ? props.notes.content : ''}>
+                    {props.notes ? props.notes.content : ''}
+                </p>
+            </div>
+            <div className="icons-container flex flex-row justify-between gap-x-2">
                 <div className="flex gap-x-2">
                     <button
                         title="Edit"
@@ -71,13 +64,11 @@ const NoteItem = (props) => {
                         <i className="fa-solid fa-trash"></i>
                     </button>
                 </div>
-                <a
-                    href="/"
-                    className="inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <button className="group inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Read more
                     <svg
                         aria-hidden="true"
-                        className="-mr-1 ml-2 h-4 w-4"
+                        className="group-hover:animate-horizontal-bounce -mr-1 ml-2 h-4 w-4"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -86,7 +77,7 @@ const NoteItem = (props) => {
                             d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
                             clipRule="evenodd"></path>
                     </svg>
-                </a>
+                </button>
             </div>
             {/* Main modal */}
             {isDeleteModalOpen && (

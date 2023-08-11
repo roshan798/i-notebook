@@ -30,9 +30,18 @@ module.exports = {
                         width: '100%',
                     },
                 },
+                'horizontal-bounce': {
+                    '0%,100%': {
+                        transform: ' translateX(0)',
+                    },
+                    '50%': {
+                        transform: 'translateX(5px)',
+                    },
+                },
             },
             animation: {
                 widening: 'widening 3s ease forwards',
+                'horizontal-bounce': 'horizontal-bounce 1s infinite',
             },
         },
         fontFamily: {

@@ -31,7 +31,7 @@ export default function Home() {
             <AddNotes />
             <div
                 style={{ width: 'inherit' }}
-                className="container mx-4 my-6 flex max-w-xl  flex-col sm:mx-auto ">
+                className="container mx-4 my-6 flex max-w-2xl  flex-col sm:mx-auto ">
                 <div className="grid grid-cols-1 justify-items-center gap-3  sm:grid-cols-2">
                     <h1 className="mb-3 self-start text-left  text-3xl  text-violet-800 sm:col-start-1 sm:col-end-3">
                         Your Notes
