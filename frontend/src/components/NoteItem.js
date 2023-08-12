@@ -68,7 +68,7 @@ const NoteItem = (props) => {
                     Read more
                     <svg
                         aria-hidden="true"
-                        className="group-hover:animate-horizontal-bounce -mr-1 ml-2 h-4 w-4"
+                        className="-mr-1 ml-2 h-4 w-4 group-hover:animate-horizontal-bounce"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
