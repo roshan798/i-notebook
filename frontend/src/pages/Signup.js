@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import UserContext from '../../context/user/userContext'
+import UserContext from '../context/user/userContext'
 export default function Signup() {
     const { setNotificationProp, setShowAlert } = useContext(UserContext)
     const navigate = useNavigate()

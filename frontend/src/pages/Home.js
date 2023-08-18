@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import AddNotes from '../AddNotes'
-import NoteCard from '../NoteCard'
-import NoteContext from '../../context/notes/noteContext'
-import LoadingSpinner from '../LoadingSpinner'
+import AddNotes from '../components/AddNotes'
+import NoteCard from '../components/NoteCard'
+import NoteContext from '../context/notes/noteContext'
+import LoadingSpinner from '../components/LoadingSpinner'
 const NoNotesMessage = () => {
     return (
         <div

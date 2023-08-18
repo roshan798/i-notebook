@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import Loading from '../LoadingSpinner'
-import UserContext from '../../context/user/userContext'
-import DialogBox from '../DialogBox'
-import NoteContext from '../../context/notes/noteContext'
-import UpdateNoteForm from '../UpdateNoteForm'
+import Loading from '../components/LoadingSpinner'
+import DialogBox from '../components/DialogBox'
+import UpdateNoteForm from '../components/UpdateNoteForm'
+import NoteContext from '../context/notes/noteContext'
+import UserContext from '../context/user/userContext'
 
 export default function Note() {
     const navigate = useNavigate()
