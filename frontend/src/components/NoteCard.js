@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react'
 import NoteContext from '../context/notes/noteContext'
 import UpdateNoteForm from './UpdateNoteForm'
 import UserContext from '../context/user/userContext'
+import { Link } from 'react-router-dom'
+import DialogBox from './DialogBox'
 
 const NoteItem = (props) => {
     const { deleteNotes, showUpdateForm, setShowUpdateForm } =
@@ -64,7 +66,9 @@ const NoteItem = (props) => {
                         <i className="fa-solid fa-trash"></i>
                     </button>
                 </div>
-                <button className="group inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <Link
+                    to={`/note/${props.notes.id}`}
+                    className="group inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Read more
                     <svg
                         aria-hidden="true"
@@ -77,17 +81,32 @@ const NoteItem = (props) => {
                             d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
                             clipRule="evenodd"></path>
                     </svg>
-                </button>
+                </Link>
             </div>
             {/* Main modal */}
             {isDeleteModalOpen && (
-                <div
+                <DialogBox
+                    id={props.notes.id}
+                    toggleModal={toggleDeleteModal}
+                    yesClickFunction={deleteHandler}
+                />
+            )}
+
+            {showUpdateForm === props.notes.id && (
+                <UpdateNoteForm notes={props.notes} />
+            )}
+        </div>
+    )
+}
+
+export default NoteItem
+/*
+<div
                     id={`deleteModal-${props.notes.id}`} // Use a unique ID for each delete modal
                     tabIndex="-1"
                     aria-hidden="true"
                     className=" h-modal fixed left-0 right-0 top-0 z-50 grid w-full justify-center overflow-y-auto overflow-x-hidden md:h-full">
-                    <div className="relative h-full w-full max-w-md p-4 md:h-auto">
-                        {/* Modal content */}
+                    <div className="relative h-full w-full max-w-md p-4 md:h-auto"> 
                         <div className="relative rounded-lg bg-white p-4 text-center shadow-lg shadow-black backdrop-blur-md dark:bg-[#260a2fd7] sm:p-5">
                             <button
                                 type="button"
@@ -141,13 +160,4 @@ const NoteItem = (props) => {
                         </div>
                     </div>
                 </div>
-            )}
-
-            {showUpdateForm === props.notes.id && (
-                <UpdateNoteForm notes={props.notes} />
-            )}
-        </div>
-    )
-}
-
-export default NoteItem
+*/

@@ -73,7 +73,6 @@ const deleteNotes = (noteId) => {
 
 const updateNotes = (NotesId, Notes) => {
   return new Promise((resolve, reject) => {
-    console.log(NotesId, Notes);
     try {
       db.query(
         `UPDATE Notes

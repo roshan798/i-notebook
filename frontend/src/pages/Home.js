@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import AddNotes from './AddNotes'
-import NoteItem from './NoteItem'
-import NoteContext from '../context/notes/noteContext'
-import LoadingSpinner from './LoadingSpinner'
+import AddNotes from '../AddNotes'
+import NoteCard from '../NoteCard'
+import NoteContext from '../../context/notes/noteContext'
+import LoadingSpinner from '../LoadingSpinner'
 const NoNotesMessage = () => {
     return (
         <div
@@ -32,7 +32,7 @@ export default function Home() {
             <div
                 style={{ width: 'inherit' }}
                 className="container mx-4 my-6 flex max-w-2xl  flex-col sm:mx-auto ">
-                <div className="grid grid-cols-1 justify-items-center gap-x-1 gap-y-3 sm:grid-cols-2">
+                <div className=" grid grid-cols-1 justify-items-center gap-x-1 gap-y-3 sm:grid-cols-2">
                     <h1 className="mb-3 self-start text-left  text-3xl  text-violet-800 sm:col-start-1 sm:col-end-3">
                         Your Notes
                     </h1>
@@ -40,7 +40,7 @@ export default function Home() {
                         <LoadingSpinner /> // Render the loading component while notes are loading
                     ) : notes && notes.length > 0 ? (
                         notes.map((note) => (
-                            <NoteItem notes={note} key={note.id} />
+                            <NoteCard notes={note} key={note.id} />
                         ))
                     ) : (
                         <NoNotesMessage />

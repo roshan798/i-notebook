@@ -123,4 +123,23 @@ router.delete("/deleteNotes/:id", fetchUser, async (req, res) => {
     res.status(401).send("error occured While updating note");
   }
 });
+
+router.get('/getSingleNote/:id', fetchUser, async (req, res) => {
+  const notesId = req.params.id;
+  const userId = req.user.userId;
+  try {
+    let result = await getNotesById(notesId);
+    if (result.length == 0 || result[0].user_id != userId) {
+      return res.status(401).send("Unauthorized acces denied");
+    }
+    res.json({
+      success: true,
+      response:result[0],
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(401).send("error occured While updating note");
+  }
+});
+
 module.exports = router;

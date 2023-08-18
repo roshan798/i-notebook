@@ -1,10 +1,9 @@
-import React, { useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 import NoteContext from '../context/notes/noteContext'
 import UserContext from '../context/user/userContext'
 export default function UpdateNoteForm(props) {
     const { setShowUpdateForm, updateNotes } = useContext(NoteContext)
     const { setNotificationProp, setShowAlert } = useContext(UserContext)
-
     //state for the update note form
     const [notes, setNotes] = useState(props.notes)
     const [inputDisable, setInputDisable] = useState(false)
@@ -21,6 +20,10 @@ export default function UpdateNoteForm(props) {
                         type: 'green',
                         msg: 'notes update successfully',
                     }))
+                    // this if is only  when the update form is opened from single note component
+                    if (props.setNote) {
+                        props.setNote(notes)
+                    }
                     setShowAlert(true)
                 }
             } catch (error) {

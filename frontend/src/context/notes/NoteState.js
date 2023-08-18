@@ -183,6 +183,13 @@ export default function NoteState(props) {
             navigate('/signup')
         }
     }
+    const getSingleNote = (id) => {
+        const note = notes.filter((note) => {
+            return note.id === id
+        })
+        console.log('inside gsn', note)
+        return note
+    }
 
     return (
         <NoteContext.Provider
@@ -195,6 +202,7 @@ export default function NoteState(props) {
                 setShowUpdateForm,
                 notesLoading,
                 setNotesLoading,
+                getSingleNote,
             }}>
             {props.children}
         </NoteContext.Provider>

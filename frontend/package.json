@@ -13,7 +13,9 @@
         "web-vitals": "^2.1.4"
     },
     "scripts": {
+        "dev": "concurrently \"npm run start\" \"npm run buildcss\"",
         "start": "react-scripts start",
+        "format": "npx prettier --write .",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
@@ -38,6 +40,7 @@
         ]
     },
     "devDependencies": {
+        "concurrently": "^8.2.0",
         "prettier": "^3.0.1",
         "prettier-plugin-tailwindcss": "^0.5.1",
         "tailwindcss": "^3.3.3"
