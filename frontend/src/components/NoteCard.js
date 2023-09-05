@@ -34,11 +34,11 @@ const NoteItem = (props) => {
     }
 
     return (
-        <div className="note-card  flex flex-col justify-between rounded-lg bg-white p-4 text-left shadow shadow-violet-400 dark:bg-gray-200">
+        <div className="note-card flex flex-col justify-between rounded-lg bg-white p-4 text-left shadow shadow-violet-400 dark:bg-gray-200">
             <div>
                 <a href="/">
                     <h2
-                        className="mb-2 overflow-hidden text-ellipsis whitespace-nowrap text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-800"
+                        className="mb-2 overflow-hidden text-ellipsis whitespace-nowrap font-[nunito] text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-800"
                         title={props.notes ? props.notes.title : ''}>
                         {props.notes ? props.notes.title : ''}
                     </h2>

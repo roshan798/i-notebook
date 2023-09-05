@@ -36,10 +36,10 @@ export default function Note() {
                 if (result.success) {
                     setNote(result.response)
                 }
-                setTimeout(setLoading, 300, false)
             } catch (error) {
                 console.error('Error:', error)
             }
+            setTimeout(setLoading, 300, false)
         }
         fetchNote()
         // eslint-disable-next-line react-hooks/exhaustive-deps
