@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import Error404 from './pages/Error404'
 import Navbar from './components/Navbar'
 import Notifiction from './components/Notification'
+import Footer from './components/Footer'
 function App() {
     const { authToken, showAlert } = useContext(UserContext)
     return (
