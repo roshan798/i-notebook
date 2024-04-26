@@ -1,5 +1,4 @@
 const db = require('../configs/db')
-// const { param } = require('../routes/auth');
 
 const getAllNotes = (userId) => {
     return new Promise((resolve, reject) => {
